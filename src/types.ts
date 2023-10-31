@@ -26,4 +26,5 @@ export interface IMenuItem {
 export interface IMessage {
 	user: IUser;
 	message: string;
+	createdAt: string;
 }

@@ -27,7 +27,6 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		const unListen = onAuthStateChanged(ga, (authUser) => {
 			if (authUser) {
-				console.log(authUser.displayName);
 				setUser({
 					id: authUser.uid,
 					avatar: users[1].avatar,

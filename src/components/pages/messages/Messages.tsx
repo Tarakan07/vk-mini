@@ -4,6 +4,8 @@ import {
 	addDoc,
 	query,
 	orderBy,
+	getDocs,
+	where,
 } from "firebase/firestore";
 import React, { FC, useEffect, useState } from "react";
 import { IMessage, IPost } from "../../../types";
@@ -17,25 +19,28 @@ const Messages: FC = () => {
 	const [message, setMessage] = useState<string>("");
 	const [messages, setMessages] = useState<IMessage[]>([]);
 	useEffect(() => {
-		const unSub = onSnapshot(collection(db, "messages"), (doc) => {
-			const newMessages: IMessage[] = [];
-			doc.forEach((d: any) => {
-				newMessages.unshift(d.data());
-			});
-
-			setMessages(newMessages);
-		});
-		return () => {
-			unSub();
-		};
+		unSnap();
 	}, []);
+
+	const unSnap = async () => {
+		const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+		const querySnapshot = await getDocs(q);
+		const newMessages: IMessage[] = [];
+		querySnapshot.forEach((doc: any) => {
+			newMessages.unshift(doc.data());
+		});
+		setMessages(newMessages);
+	};
 
 	const sentMessageHandler = async () => {
 		try {
+			const createdAt = new Date();
 			await addDoc(collection(db, "messages"), {
 				user,
 				message,
+				createdAt,
 			});
+			await unSnap();
 		} catch (error: any) {
 			setError(error);
 		}

@@ -4,25 +4,52 @@ import { Box, Avatar, ImageList, ImageListItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
 import { initialPost } from "./initialPost";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+	collection,
+	getDocs,
+	onSnapshot,
+	orderBy,
+	query,
+} from "firebase/firestore";
+import useSnap from "../../providers/useSnap";
 
 const Posts: FC = () => {
 	const { db } = useAuth();
 	const [error, setError] = useState("");
-	const [posts, setPosts] = useState<IPost[]>(initialPost);
+	const { state, unSnap } = useSnap();
 	useEffect(() => {
-		const unSub = onSnapshot(collection(db, "posts"), (doc) => {
-			doc.forEach((d: any) => {
-				setPosts((prev) => [d.data(), ...prev]);
-			});
-		});
-		return () => {
-			unSub();
-		};
+		console.log("update");
+	}, [state]);
+	useEffect(() => {
+		unSnap();
 	}, []);
+	// const [posts, setPosts] = useState<IPost[]>(initialPost);
+
+	// const unSnap = async () => {
+	// 	try {
+	// 		const querySnapshot = getDocs(
+	// 			query(collection(db, "posts"), orderBy("createdAt", "desc"))
+	// 		);
+	// 		await querySnapshot.then((shap) => {
+	// 			const newPosts: IPost[] = [...initialPost];
+	// 			shap.forEach((doc: any) => {
+	// 				newPosts.unshift(doc.data());
+	// 			});
+
+	// 			setPosts(newPosts);
+	// 		});
+	// 	} catch (error: any) {
+	// 		setError(error);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	unSnap();
+	// }, [db]);
+
 	return (
 		<>
-			{posts.map((post, ind) => {
+			{state.map((post, ind) => {
 				return (
 					<Box key={ind} sx={{ marginTop: "30px" }}>
 						<Link
@@ -47,7 +74,7 @@ const Posts: FC = () => {
 									{post.author.name}
 								</span>
 								<span style={{ fontSize: 14, paddingLeft: 15 }}>
-									{post.createdAt}
+									{post.createdAt.toString()}
 								</span>
 							</div>
 						</Link>

@@ -9,7 +9,7 @@ import Friends from "../pages/friends/Friends";
 import Conversation from "../pages/messages/Conversation";
 import { Auth } from "../pages/auth/Auth";
 import News from "../pages/news/News";
-
+import SecretsPages from "../providers/SecretsPages";
 export const router = createBrowserRouter([
 	{
 		path: "/",
@@ -22,16 +22,28 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/profile",
-				element: <Profile />,
+				element: (
+					<SecretsPages>
+						<Profile />
+					</SecretsPages>
+				),
 			},
 			{
 				path: "/profile/:id",
-				element: <Profile />,
+				element: (
+					<SecretsPages>
+						<Profile />
+					</SecretsPages>
+				),
 			},
 
 			{
 				path: "/messages",
-				element: <Messages />,
+				element: (
+					<SecretsPages>
+						<Messages />
+					</SecretsPages>
+				),
 			},
 			{
 				path: "/message/:id",
@@ -39,7 +51,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/friends",
-				element: <Friends />,
+				element: (
+					<SecretsPages>
+						<Friends />
+					</SecretsPages>
+				),
 			},
 			{
 				path: "/news",
