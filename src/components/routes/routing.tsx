@@ -7,7 +7,8 @@ import Profile from "../pages/profile/Profile";
 import Messages from "../pages/messages/Messages";
 import Friends from "../pages/friends/Friends";
 import Conversation from "../pages/messages/Conversation";
-import Auth from "../pages/auth/Auth";
+import { Auth } from "../pages/auth/Auth";
+import News from "../pages/news/News";
 
 export const router = createBrowserRouter([
 	{
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <Home />,
+			},
+			{
+				path: "/profile",
+				element: <Profile />,
 			},
 			{
 				path: "/profile/:id",
@@ -35,6 +40,10 @@ export const router = createBrowserRouter([
 			{
 				path: "/friends",
 				element: <Friends />,
+			},
+			{
+				path: "/news",
+				element: <News />,
 			},
 			{
 				path: "/auth",

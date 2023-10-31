@@ -1,48 +1,100 @@
-import { Button, ButtonGroup, TextField } from "@mui/material";
-import React, { FC, memo, useState } from "react";
-
-interface IUserData {
-	email: string;
-	password: string;
-}
-
+import { Alert, Button, ButtonGroup, TextField } from "@mui/material";
+import React, { FC, memo, useEffect, useState } from "react";
+import { IUserData } from "./types";
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	updateProfile,
+} from "firebase/auth";
+import { useAuth } from "../../providers/useAuth";
 const Auth: FC = () => {
+	const { ga, user } = useAuth();
 	const [isRegForm, setIsRegForm] = useState(false);
 	const [userData, setUsetData] = useState<IUserData>({
+		name: "",
 		email: "",
 		password: "",
 	} as IUserData);
-	const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+	const [error, setError] = useState(null);
+	const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isRegForm) {
-			console.log("register");
+			try {
+				const res = await createUserWithEmailAndPassword(
+					ga,
+					userData.email,
+					userData.password
+				);
+				await updateProfile(res.user, {
+					displayName: userData.name,
+				});
+			} catch (error: any) {
+				if (error) {
+					setError(error.message);
+				}
+			}
 		} else {
-			console.log("auth");
+			try {
+				await signInWithEmailAndPassword(ga, userData.email, userData.password);
+			} catch (error: any) {
+				if (error) {
+					setError(error.message);
+				}
+			}
 		}
-		console.log(userData.email, userData.password);
 	};
+
+	// useEffect(() => {
+	// 	if (user) {
+	// 		navigate("/");
+	// 	}
+	// }, [user]);
 	return (
-		<form onSubmit={handleLogin}>
-			<TextField
-				type="email"
-				label="Email"
-				variant="outlined"
-				value={userData.email}
-				onChange={(e) => setUsetData({ ...userData, email: e.target.value })}
-			/>
-			<TextField
-				type="password"
-				label="password"
-				variant="outlined"
-				value={userData.password}
-				onChange={(e) => setUsetData({ ...userData, password: e.target.value })}
-			/>
-			<ButtonGroup variant="outlined">
-				<Button onClick={() => setIsRegForm(false)}>Login</Button>
-				<Button onClick={() => setIsRegForm(true)}>Register</Button>
-			</ButtonGroup>
-		</form>
+		<>
+			{error && (
+				<Alert severity="error" style={{ marginBottom: "15px" }}>
+					{error}
+				</Alert>
+			)}
+
+			<form onSubmit={handleLogin}>
+				<TextField
+					type="text"
+					label="Name"
+					variant="outlined"
+					value={userData.name}
+					required
+					onChange={(e) => setUsetData({ ...userData, name: e.target.value })}
+				/>
+				<TextField
+					type="email"
+					label="Email"
+					variant="outlined"
+					value={userData.email}
+					required
+					onChange={(e) => setUsetData({ ...userData, email: e.target.value })}
+				/>
+				<TextField
+					type="password"
+					label="password"
+					variant="outlined"
+					value={userData.password}
+					required
+					onChange={(e) =>
+						setUsetData({ ...userData, password: e.target.value })
+					}
+				/>
+				<ButtonGroup variant="outlined">
+					<Button type="submit" onClick={() => setIsRegForm(false)}>
+						Login
+					</Button>
+					<Button type="submit" onClick={() => setIsRegForm(true)}>
+						Register
+					</Button>
+				</ButtonGroup>
+			</form>
+		</>
 	);
 };
 
-export default Auth;
+export { Auth };

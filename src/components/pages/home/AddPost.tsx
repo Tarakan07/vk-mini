@@ -2,17 +2,19 @@ import { Box, TextField } from "@mui/material";
 import React, { FC, useState } from "react";
 import { IPost, TypeSetState } from "../../../types";
 import { users } from "../../layout/sidebar/dataUsers";
+import { useAuth } from "../../providers/useAuth";
 interface IAddPost {
 	setPosts: TypeSetState<IPost[]>;
 }
 
 const AddPost: FC<IAddPost> = ({ setPosts }) => {
 	const [content, setContent] = useState<string>("");
+	const { user } = useAuth();
 	const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.code === "Enter") {
+		if (e.code === "Enter" && user) {
 			setPosts((prev) => [
 				{
-					author: users[0],
+					author: user,
 					createdAt: "1 minutes ago",
 					content,
 				},

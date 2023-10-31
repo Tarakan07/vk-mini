@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { IPost } from "../../../types";
 import { Box, Avatar, ImageList, ImageListItem } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../providers/useAuth";
 
 interface IPosts {
 	posts: IPost[];
@@ -10,11 +11,10 @@ interface IPosts {
 const Posts: FC<IPosts> = ({ posts }) => {
 	return (
 		<>
-			{posts.map((post) => {
+			{posts.map((post, ind) => {
 				return (
-					<Box sx={{ marginTop: "30px" }}>
+					<Box key={ind} sx={{ marginTop: "30px" }}>
 						<Link
-							key={post.author.id}
 							to={`/profile/${post.author.id}`}
 							style={{
 								textDecoration: "none",
