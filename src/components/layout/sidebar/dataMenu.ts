@@ -17,10 +17,4 @@ export const menu: IMenuItem[] = [
 		link: "/news",
 		icon: Icons.Article,
 	},
-
-	{
-		title: "My page",
-		link: "/profile",
-		icon: Icons.Home,
-	},
 ];

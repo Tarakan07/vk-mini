@@ -1,0 +1,53 @@
+.header {
+	background: #5277a3;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.header-wrap {
+	display: flex;
+	align-items: center;
+}
+.logo {
+	height: 40px;
+	width: 40px;
+}
+
+.box-search {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	width: 80%;
+	overflow: hidden;
+}
+.box-search > input {
+	/* background-color: #607d9f; */
+	border: none;
+	outline: none;
+	width: 100%;
+	padding: 10px 15px;
+	border-radius: 15px;
+	display: flex;
+	align-items: center;
+	background-color: #607d9f;
+}
+.box-search > input:focus {
+	background-color: #fff;
+}
+.box-search > input:focus + .input_add {
+	/* transition: 0.5s; */
+	top: -100%;
+}
+.input_add {
+	cursor: pointer;
+	transition: 0.5s;
+
+	border-radius: 15px;
+	top: 15%;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.input_add * {
+}
