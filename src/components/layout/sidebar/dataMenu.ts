@@ -8,6 +8,11 @@ export const menu: IMenuItem[] = [
 		icon: Icons.Home,
 	},
 	{
+		title: "Messages",
+		link: "/messages",
+		icon: Icons.Forum,
+	},
+	{
 		title: "Friends",
 		link: "/friends",
 		icon: Icons.People,

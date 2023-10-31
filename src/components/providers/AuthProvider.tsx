@@ -9,11 +9,13 @@ import {
 import { IUser, TypeSetState } from "../../types";
 import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
 import { users } from "../layout/sidebar/dataUsers";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 interface IContext {
 	user: IUser | null;
 	setUser: TypeSetState<IUser | null>;
 	ga: Auth;
+	db: Firestore;
 }
 
 export const AuthContext = createContext<IContext>({} as IContext);
@@ -21,7 +23,7 @@ export const AuthContext = createContext<IContext>({} as IContext);
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [user, setUser] = useState<IUser | null>(null);
 	const ga = getAuth();
-
+	const db = getFirestore();
 	useEffect(() => {
 		const unListen = onAuthStateChanged(ga, (authUser) => {
 			if (authUser) {
@@ -43,8 +45,9 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 			ga,
 			user,
 			setUser,
+			db,
 		};
-	}, [ga, user]);
+	}, [ga, user, db]);
 
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
