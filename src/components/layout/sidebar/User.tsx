@@ -9,6 +9,7 @@ const User: FC = () => {
 
 	const logOut = () => {
 		navigate("/auth");
+		localStorage.clear();
 		signOut(ga);
 	};
 

@@ -21,7 +21,12 @@ interface IContext {
 export const AuthContext = createContext<IContext>({} as IContext);
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-	const [user, setUser] = useState<IUser | null>(null);
+	const [user, setUser] = useState<IUser | null>(
+		localStorage.getItem("auth")
+			? JSON.parse(JSON.stringify(localStorage.getItem("auth")))
+			: null
+	);
+
 	const ga = getAuth();
 	const db = getFirestore();
 	useEffect(() => {
@@ -32,6 +37,15 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 					avatar: users[1].avatar,
 					name: authUser.displayName || "",
 				});
+
+				localStorage.setItem(
+					"auth",
+					JSON.stringify({
+						id: authUser.uid,
+						avatar: users[1].avatar,
+						name: authUser.displayName || "",
+					})
+				);
 			} else {
 				setUser(null);
 			}

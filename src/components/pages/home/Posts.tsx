@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { IPost } from "../../../types";
+import { IPost, IUser } from "../../../types";
 import { Box, Avatar, ImageList, ImageListItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
@@ -13,43 +13,22 @@ import {
 } from "firebase/firestore";
 import useSnap from "../../providers/useSnap";
 
-const Posts: FC = () => {
+interface IProps {
+	posts: IPost[];
+	callSnap: () => void;
+}
+
+const Posts: FC<IProps> = ({ posts, callSnap }: IProps) => {
 	const { db } = useAuth();
 	const [error, setError] = useState("");
-	const { state, unSnap } = useSnap();
+
 	useEffect(() => {
-		console.log("update");
-	}, [state]);
-	useEffect(() => {
-		unSnap();
+		callSnap();
 	}, []);
-	// const [posts, setPosts] = useState<IPost[]>(initialPost);
-
-	// const unSnap = async () => {
-	// 	try {
-	// 		const querySnapshot = getDocs(
-	// 			query(collection(db, "posts"), orderBy("createdAt", "desc"))
-	// 		);
-	// 		await querySnapshot.then((shap) => {
-	// 			const newPosts: IPost[] = [...initialPost];
-	// 			shap.forEach((doc: any) => {
-	// 				newPosts.unshift(doc.data());
-	// 			});
-
-	// 			setPosts(newPosts);
-	// 		});
-	// 	} catch (error: any) {
-	// 		setError(error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	unSnap();
-	// }, [db]);
 
 	return (
 		<>
-			{state.map((post, ind) => {
+			{posts.map((post, ind) => {
 				return (
 					<Box key={ind} sx={{ marginTop: "30px" }}>
 						<Link

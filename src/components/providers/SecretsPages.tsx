@@ -1,9 +1,13 @@
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, ReactNode } from "react";
 import { useAuth } from "./useAuth";
 import { Navigate } from "react-router-dom";
-
-const SecretsPages: FC<PropsWithChildren> = ({ children }) => {
+interface ISecretsPage {
+	children: ReactNode;
+	revert?: boolean;
+}
+const SecretsPages: FC<ISecretsPage> = ({ children, revert = false }) => {
 	const { user } = useAuth();
+
 	if (user) {
 		return <>{children}</>;
 	} else {

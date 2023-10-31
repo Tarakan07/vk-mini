@@ -5,7 +5,11 @@ import { useAuth } from "../../providers/useAuth";
 import { addDoc, collection } from "firebase/firestore";
 import useSnap from "../../providers/useSnap";
 
-const AddPost: FC = () => {
+interface IProps {
+	callSnap: () => void;
+}
+
+const AddPost: FC<IProps> = ({ callSnap }: IProps) => {
 	const [content, setContent] = useState<string>("");
 	const [error, setError] = useState(null);
 	const { user, db } = useAuth();
@@ -19,7 +23,7 @@ const AddPost: FC = () => {
 					createdAt,
 					content,
 				});
-				unSnap();
+				callSnap();
 			} catch (error: any) {
 				setError(error);
 			}

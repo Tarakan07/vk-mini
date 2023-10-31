@@ -1,15 +1,18 @@
 import React from "react";
 import Sidebar from "./sidebar/Sidebar";
 import { Grid } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "./header/Header";
 import { useAuth } from "../providers/useAuth";
-import { Auth } from "../pages/auth/Auth";
-import { Navigate } from "react-router-dom";
+
 // const Layout: React.FC<
 // 	React.PropsWithChildren<{ children: React.ReactNode }>
 const Layout: React.FC = () => {
 	const { user } = useAuth();
+	const location = useLocation();
+	const navigate = useNavigate();
+
+	if (location.pathname === "/auth" && user) navigate("/");
 	return (
 		<>
 			<Header />
@@ -17,7 +20,7 @@ const Layout: React.FC = () => {
 				<Grid item md={2}>
 					<Sidebar />
 				</Grid>
-				<Grid item md={!user ? 10 : 12}>
+				<Grid item md={10}>
 					<Outlet />
 				</Grid>
 			</Grid>
