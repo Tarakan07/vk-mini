@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, createHashRouter } from "react-router-dom";
 
 import Home from "../pages/home/Home";
 import Layout from "../layout/Layout";
@@ -10,7 +10,7 @@ import Conversation from "../pages/messages/Conversation";
 import { Auth } from "../pages/auth/Auth";
 import News from "../pages/news/News";
 import SecretsPages from "../providers/SecretsPages";
-export const router = createBrowserRouter([
+export const router = createHashRouter([
 	{
 		path: "/",
 		element: <Layout />,

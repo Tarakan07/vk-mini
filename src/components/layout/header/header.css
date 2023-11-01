@@ -39,6 +39,7 @@
 	top: -100%;
 }
 .input_add {
+	pointer-events: none;
 	cursor: pointer;
 	transition: 0.5s;
 
