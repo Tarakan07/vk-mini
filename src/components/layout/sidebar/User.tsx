@@ -14,22 +14,24 @@ const User: FC = () => {
 	};
 
 	return (
-		<>
-			{user && (
-				<Card
-					variant="outlined"
-					sx={{
-						padding: 2,
-						backgroundColor: "#F1F7Fa",
-						border: "none",
-						borderRadius: 3,
-					}}
-				>
+		<Card
+			variant="outlined"
+			sx={{
+				padding: 2,
+				backgroundColor: "#F1F7Fa",
+				border: "none",
+				borderRadius: 3,
+			}}
+		>
+			{user ? (
+				<>
 					{user.name}
 					<Button onClick={logOut}>logout</Button>
-				</Card>
+				</>
+			) : (
+				<Button onClick={() => navigate("/auth")}>login</Button>
 			)}
-		</>
+		</Card>
 	);
 };
 

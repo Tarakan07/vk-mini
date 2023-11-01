@@ -57,12 +57,22 @@ const Auth: FC = () => {
 				</Alert>
 			)}
 
-			<form onSubmit={handleLogin}>
+			<form
+				onSubmit={handleLogin}
+				style={{
+					flexDirection: "column",
+					display: "flex",
+					width: "40%",
+					alignItems: "center",
+					margin: "0 auto",
+				}}
+			>
 				<TextField
 					type="text"
 					label="Name"
 					variant="outlined"
 					value={userData.name}
+					sx={{ width: "100%" }}
 					required
 					onChange={(e) => setUsetData({ ...userData, name: e.target.value })}
 				/>
@@ -70,6 +80,7 @@ const Auth: FC = () => {
 					type="email"
 					label="Email"
 					variant="outlined"
+					sx={{ width: "100%", marginTop: "10px" }}
 					value={userData.email}
 					required
 					onChange={(e) => setUsetData({ ...userData, email: e.target.value })}
@@ -78,13 +89,22 @@ const Auth: FC = () => {
 					type="password"
 					label="password"
 					variant="outlined"
+					sx={{ width: "100%", marginTop: "10px" }}
 					value={userData.password}
 					required
 					onChange={(e) =>
 						setUsetData({ ...userData, password: e.target.value })
 					}
 				/>
-				<ButtonGroup variant="outlined">
+				<ButtonGroup
+					variant="outlined"
+					sx={{
+						marginTop: "10px",
+						display: "flex",
+						justifyContent: "center",
+						width: "100%",
+					}}
+				>
 					<Button type="submit" onClick={() => setIsRegForm(false)}>
 						Login
 					</Button>
